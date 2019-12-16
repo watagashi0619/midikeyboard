@@ -177,12 +177,11 @@ class MIDIListener():
                 self.event_log.append(event)
 
                 #number
-                for i in reversed(range(len(self.event_log))):
-                    if i+3==len(self.event_log):
-                        if self.event_log[i][0][0] == 176 and (self.event_log[i][0][2] == 86 or self.event_log[i][0][2] == 87):
-                            num_hash=self.event_log[i][0][2]+self.event_log[i+1][0][2]+self.event_log[i+2][0][1]
+                if len(self.event_log) > 3:
+                    if self.event_log[-3][0][0] == 176 and (self.event_log[-3][0][2] == 86 or self.event_log[-3][0][2] == 87):
+                            num_hash = self.event_log[-3][0][2] + self.event_log[-2][0][2] + self.event_log[-1][0][1]
                             if num_hash in MIDIListener.keydict_num:
-                                note_num=MIDIListener.keydict_num[num_hash]
+                                note_num = MIDIListener.keydict_num[num_hash]
                                 self.send_key(note_num, True)
                                 self.send_key(note_num, False)
                                 self.event_log=[]
